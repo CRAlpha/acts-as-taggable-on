@@ -281,6 +281,10 @@ module ActsAsTaggableOn::Taggable
 
     def tag_list_cache_on(context)
       variable_name = "@#{context.to_s.singularize}_list"
+
+      # rails 5 may not call ActiveRecord::Base.columns automatically
+      self.class.columns
+
       if instance_variable_get(variable_name)
         instance_variable_get(variable_name)
       elsif cached_tag_list_on(context) && self.class.caching_tag_list_on?(context)
